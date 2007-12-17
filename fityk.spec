@@ -14,7 +14,6 @@ Source3:	%{name}16.png
 URL:		http://www.unipress.waw.pl/~wojdyr/fityk/
 License:	GPL
 Group:		Sciences/Other
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	wxGTK-devel readline-devel ncurses-devel
 BuildRequires:  boost-devel
 Requires:	gnuplot
