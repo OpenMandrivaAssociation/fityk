@@ -17,6 +17,7 @@ License:	GPL
 Group:		Sciences/Other
 BuildRequires:	wxGTK-devel readline-devel ncurses-devel
 BuildRequires:  boost-devel
+BuildRequires:	desktop-file-utils
 Requires:	gnuplot
 
 %description
