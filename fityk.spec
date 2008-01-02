@@ -15,6 +15,7 @@ Source0:	http://prdownloads.sourceforge.net/fityk/%{name}-%{version}.tar.bz2
 URL:		http://www.unipress.waw.pl/~wojdyr/fityk/
 License:	GPL
 Group:		Sciences/Other
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	wxGTK-devel readline-devel ncurses-devel
 BuildRequires:  boost-devel
 BuildRequires:	desktop-file-utils
