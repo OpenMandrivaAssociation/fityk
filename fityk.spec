@@ -1,5 +1,5 @@
 %define name	fityk
-%define version 0.8.2
+%define version 0.8.6
 %define release %mkrel 1
 
 %define major 0
@@ -12,8 +12,8 @@ Version:	%{version}
 Release:	%{release}
 
 Source0:	http://prdownloads.sourceforge.net/fityk/%{name}-%{version}.tar.bz2
-URL:		http://www.unipress.waw.pl/~wojdyr/fityk/
-License:	GPL
+URL:		http://www.unipress.waw.pl/fityk/
+License:	GPLv2
 Group:		Sciences/Other
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	wxGTK-devel readline-devel ncurses-devel
@@ -66,7 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 
 desktop-file-install --vendor="" \
   --remove-category="Application" \
-  --add-category="X-MandrivaLinux-MoreApplications-Sciences-Mathematics;Science;Math;" \
+  --add-category="X-MandrivaLinux-MoreApplications-Sciences-DataVisualization;Science;DataVisualization;" \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*
 
 %find_lang %name
@@ -106,6 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lib*.so.*
 
 %files -n %{develname}
+%{_includedir}/%name
 %{_includedir}/*.h
 %{_libdir}/*.so
 %{_libdir}/*.la
