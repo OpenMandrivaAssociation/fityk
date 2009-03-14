@@ -1,6 +1,6 @@
 %define name	fityk
 %define version 0.8.6
-%define release %mkrel 1
+%define release %mkrel 3
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -10,16 +10,16 @@ Name:		%{name}
 Summary:	Non-linear curve fitting and data analysis
 Version:	%{version}
 Release:	%{release}
-
-Source0:	http://prdownloads.sourceforge.net/fityk/%{name}-%{version}.tar.bz2
-URL:		http://www.unipress.waw.pl/fityk/
 License:	GPLv2
 Group:		Sciences/Other
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+URL:		http://www.unipress.waw.pl/fityk/
+Source0:	http://prdownloads.sourceforge.net/fityk/%{name}-%{version}.tar.bz2
+Patch:      fityk-0.8.6-fix-format-errors.patch
 BuildRequires:	wxGTK-devel readline-devel ncurses-devel
 BuildRequires:  boost-devel
 BuildRequires:	desktop-file-utils
 Requires:	gnuplot
+BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 Fityk is nonlinear curve-fitting and data analysis software. It allows data
@@ -53,6 +53,7 @@ applications which will use %name.
 
 %prep
 %setup -q
+%patch -p 1
 perl -pi -e 's|.png|||g' fityk.desktop
 
 %build
@@ -61,18 +62,18 @@ perl -p -i -e 's|mkdir|mkdir -p||g' doc/Makefile
 %make
 										
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall
 
 desktop-file-install --vendor="" \
   --remove-category="Application" \
   --add-category="X-MandrivaLinux-MoreApplications-Sciences-DataVisualization;Science;DataVisualization;" \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*
+  --dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
 
 %find_lang %name
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %if %mdkversion < 200900
 %post
