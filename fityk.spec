@@ -1,6 +1,6 @@
 %define name	fityk
 %define version 0.8.6
-%define release %mkrel 3
+%define release %mkrel 4
 
 %define major 0
 %define libname %mklibname %{name} %{major}
