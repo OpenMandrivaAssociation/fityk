@@ -1,6 +1,6 @@
 %define name	fityk
-%define version 0.8.6
-%define release %mkrel 4
+%define version 0.9.0
+%define release %mkrel 1
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -10,13 +10,16 @@ Name:		%{name}
 Summary:	Non-linear curve fitting and data analysis
 Version:	%{version}
 Release:	%{release}
-License:	GPLv2
+License:	GPLv2+
 Group:		Sciences/Other
 URL:		http://www.unipress.waw.pl/fityk/
 Source0:	http://prdownloads.sourceforge.net/fityk/%{name}-%{version}.tar.bz2
-Patch:      fityk-0.8.6-fix-format-errors.patch
-BuildRequires:	wxGTK-devel readline-devel ncurses-devel
+Patch0:		fityk-0.9.0-fix-format-errors.patch
+BuildRequires:	wxGTK-devel
+BuildRequires:	readline-devel
+BuildRequires:	ncurses-devel
 BuildRequires:  boost-devel
+BuildRequires:	xylib-devel
 BuildRequires:	desktop-file-utils
 Requires:	gnuplot
 BuildRoot:	%{_tmppath}/%{name}-%{version}
@@ -53,12 +56,12 @@ applications which will use %name.
 
 %prep
 %setup -q
-%patch -p 1
-perl -pi -e 's|.png|||g' fityk.desktop
+%patch0 -p 1 -b .strfmt
 
 %build
-%configure2_5x
-perl -p -i -e 's|mkdir|mkdir -p||g' doc/Makefile
+%configure2_5x	--disable-3rdparty \
+		--disable-xyconvert \
+		--with-samples
 %make
 										
 %install
@@ -66,9 +69,10 @@ rm -rf %{buildroot}
 %makeinstall
 
 desktop-file-install --vendor="" \
-  --remove-category="Application" \
-  --add-category="X-MandrivaLinux-MoreApplications-Sciences-DataVisualization;Science;DataVisualization;" \
-  --dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
+ --remove-category="Education" \
+ --add-category="X-MandrivaLinux-MoreApplications-Sciences-DataVisualization" \
+ --dir %{buildroot}%{_datadir}/applications \
+ %{buildroot}%{_datadir}/applications/*
 
 %find_lang %name
 
@@ -107,7 +111,6 @@ rm -rf %{buildroot}
 %{_libdir}/lib*.so.*
 
 %files -n %{develname}
-%{_includedir}/%name
 %{_includedir}/*.h
 %{_libdir}/*.so
 %{_libdir}/*.la
