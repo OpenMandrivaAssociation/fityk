@@ -1,28 +1,22 @@
-%define name	fityk
-%define version 0.9.0
-%define release %mkrel 2
-
-%define major 0
+%define major 3
 %define libname %mklibname %{name} %{major}
 %define develname %mklibname %{name} -d
 
-Name:		%{name}
+Name:		fityk
 Summary:	Non-linear curve fitting and data analysis
-Version:	%{version}
-Release:	%{release}
+Version:	0.9.8
+Release:	%mkrel 1
 License:	GPLv2+
 Group:		Sciences/Other
 URL:		http://www.unipress.waw.pl/fityk/
 Source0:	http://prdownloads.sourceforge.net/fityk/%{name}-%{version}.tar.bz2
-Patch0:		fityk-0.9.0-fix-format-errors.patch
-BuildRequires:	wxGTK-devel
+BuildRequires:	wxgtku-devel
 BuildRequires:	readline-devel
 BuildRequires:	ncurses-devel
-BuildRequires:  boost-devel
-BuildRequires:	xylib-devel
+BuildRequires:	boost-devel
+BuildRequires:	xylib-devel >= 0.6
 BuildRequires:	desktop-file-utils
 Requires:	gnuplot
-BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 Fityk is nonlinear curve-fitting and data analysis software. It allows data
@@ -35,82 +29,65 @@ enables background substracting, data calibration and task automation with a
 simple script language. It is being developed to analyze powder diffraction
 patterns, but it can be used to fit analytical functions to any kind of data.
 
-%package -n     %{libname}
-Summary:        Main library for %name 
-Group:          System/Libraries
-Provides:       %{name} = %{version}-%{release}
+%package -n	%{libname}
+Summary:	Main library for %{name}
+Group:		System/Libraries
+Provides:	%{name} = %{version}-%{release}
 
-%description -n %{libname}
+%description -n	%{libname}
 This package contains the library needed to run programs dynamically
-linked with %name.
+linked with %{name}.
 
-%package -n     %{develname}
-Summary:        Headers for developing programs that will use %name
-Group:          Development/C
-Requires:       %{libname} = %{version}
-Provides:       %{name}-devel = %{version}-%{release}
+%package -n	%{develname}
+Summary:	Headers for developing programs that will use %{name}
+Group:		Development/C
+Requires:	%{libname} = %{version}
+Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n %{develname}
 This package contains the headers that programmers will need to develop
-applications which will use %name.
+applications which will use %{name}.
 
 %prep
 %setup -q
-%patch0 -p 1 -b .strfmt
 
 %build
 %configure2_5x	--disable-3rdparty \
 		--disable-xyconvert \
 		--with-samples
 %make
-										
+
 %install
-rm -rf %{buildroot}
-%makeinstall
+%__rm -rf %{buildroot}
+%makeinstall_std
 
-desktop-file-install --vendor="" \
- --remove-category="Education" \
- --add-category="X-MandrivaLinux-MoreApplications-Sciences-DataVisualization" \
- --dir %{buildroot}%{_datadir}/applications \
- %{buildroot}%{_datadir}/applications/*
-
-%find_lang %name
+desktop-file-install	--vendor="" \
+	--remove-category="Education" \
+	--add-category="X-MandrivaLinux-MoreApplications-Sciences-DataVisualization" \
+	--dir %{buildroot}%{_datadir}/applications \
+	%{buildroot}%{_datadir}/applications/*
 
 %clean
-rm -rf %{buildroot}
+%__rm -rf %{buildroot}
 
-%if %mdkversion < 200900
-%post
-%update_menus
-%endif
-		
-%if %mdkversion < 200900
-%postun
-%clean_menus
-%endif
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
-%files -f %{name}.lang
+%files
 %defattr(-,root,root)
 %doc README samples NEWS
 %{_bindir}/%{name}
 %{_bindir}/c%{name}
-%{_datadir}/%name
+%{_datadir}/%{name}
 %{_mandir}/man1/*
 %{_datadir}/applications/*
 %{_datadir}/pixmaps/*
 %{_datadir}/mime/packages/*
 
 %files -n %{libname}
-%{_libdir}/lib*.so.*
+%{_libdir}/lib*.so.%{major}*
 
 %files -n %{develname}
 %{_includedir}/*.h
 %{_libdir}/*.so
+%if %{mdvver} <= 201100
 %{_libdir}/*.la
+%endif
+
