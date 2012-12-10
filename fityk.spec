@@ -5,7 +5,7 @@
 Name:		fityk
 Summary:	Non-linear curve fitting and data analysis
 Version:	0.9.8
-Release:	%mkrel 1
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Other
 URL:		http://www.unipress.waw.pl/fityk/
@@ -14,7 +14,7 @@ BuildRequires:	wxgtku-devel
 BuildRequires:	readline-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	boost-devel
-BuildRequires:	xylib-devel >= 0.6
+BuildRequires:	xylib-devel
 BuildRequires:	desktop-file-utils
 Requires:	gnuplot
 
@@ -41,7 +41,7 @@ linked with %{name}.
 %package -n	%{develname}
 Summary:	Headers for developing programs that will use %{name}
 Group:		Development/C
-Requires:	%{libname} = %{version}
+Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n %{develname}
@@ -53,12 +53,10 @@ applications which will use %{name}.
 
 %build
 %configure2_5x	--disable-3rdparty \
-		--disable-xyconvert \
-		--with-samples
+		--disable-xyconvert
 %make
 
 %install
-%__rm -rf %{buildroot}
 %makeinstall_std
 
 desktop-file-install	--vendor="" \
@@ -67,12 +65,8 @@ desktop-file-install	--vendor="" \
 	--dir %{buildroot}%{_datadir}/applications \
 	%{buildroot}%{_datadir}/applications/*
 
-%clean
-%__rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root)
-%doc README samples NEWS
+%doc README NEWS
 %{_bindir}/%{name}
 %{_bindir}/c%{name}
 %{_datadir}/%{name}
@@ -87,7 +81,4 @@ desktop-file-install	--vendor="" \
 %files -n %{develname}
 %{_includedir}/*.h
 %{_libdir}/*.so
-%if %{mdvver} <= 201100
-%{_libdir}/*.la
-%endif
 
