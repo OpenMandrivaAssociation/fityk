@@ -5,7 +5,7 @@
 Name:		fityk
 Summary:	Non-linear curve fitting and data analysis
 Version:	0.9.8
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Sciences/Other
 URL:		http://www.unipress.waw.pl/fityk/
