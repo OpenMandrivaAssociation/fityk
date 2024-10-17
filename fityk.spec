@@ -8,7 +8,7 @@ Version:	0.9.8
 Release:	2
 License:	GPLv2+
 Group:		Sciences/Other
-URL:		http://www.unipress.waw.pl/fityk/
+URL:		https://www.unipress.waw.pl/fityk/
 Source0:	http://prdownloads.sourceforge.net/fityk/%{name}-%{version}.tar.bz2
 BuildRequires:	wxgtku-devel
 BuildRequires:	readline-devel
